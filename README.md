@@ -47,3 +47,11 @@ the party loop become no-ops. See the docstring in
 
 Verified statically (byte signatures matched uniquely in all 20 versions, patched
 instructions disassembled).
+
+## If the patch does not work on a ROM listed as compatible
+
+A ROM marked as compatible can still fail to patch (different dump, header or revision, modified file, tool quirk). If that happens, do not give up. Try one of these instead:
+
+- **Create the patch yourself** from your own ROM, with the tools in this repository.
+- **Build the patched ROM directly** instead of applying a patch file.
+- **Modify the code** to adapt it to your ROM.
