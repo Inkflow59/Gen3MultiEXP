@@ -6,21 +6,32 @@ A tiny ROM patch for Pokémon **Emerald**, **FireRed** and **LeafGreen** (GBA).
 **full** experience amount, as if it were the only participant. Held Exp. Share
 items no longer split or halve the experience (they become redundant).
 
-Supported ROMs: 14 versions (Emerald USA/EU, ES, DE, FR; FireRed USA rev 0/1,
-JP, ES, FR; LeafGreen USA rev 0/1, DE, FR, IT).
+## Supported versions
+
+20 versions, all patched successfully from real dumps:
+
+| Game      | USA/EU        | Japan | Spain | Germany | France | Italy |
+|-----------|---------------|-------|-------|---------|--------|-------|
+| Emerald   | ✅            | ✅    | ✅    | ✅      | ✅     | ✅    |
+| FireRed   | ✅ (rev 0, 1) | ✅    | ✅    | ✅      | ✅     | ✅    |
+| LeafGreen | ✅ (rev 0, 1) | ✅    | ✅    | ✅      | ✅     | ✅    |
+
+Not covered: any other revision or region — the tool refuses ROMs whose
+signatures do not match exactly one location rather than guessing.
 
 ## Use
 
-Ready-made IPS patches are in `patches/` (one per ROM version, 4 two-byte edits
-each). Apply the one matching your ROM with any IPS patcher (Lunar IPS, Floating
-IPS, …).
-
-Or generate patches / patched ROMs yourself:
+Generate IPS patches (one per ROM version, 4 two-byte edits each) or patched
+ROMs yourself from a folder containing your own dumps. IPS patches can be
+applied with any IPS patcher (Lunar IPS, Floating IPS, …).
 
 ```bash
 python tools/gen3_multi_exp.py build <roms_dir>   # writes patches/*.ips
 python tools/gen3_multi_exp.py apply <roms_dir>   # writes patched/*.gba
 ```
+
+Use `--out <dir>` to choose the output folder. Patched ROMs are named
+`<original name> (Multi EXP).gba`; the original files are left untouched.
 
 ROMs are never stored in this repository.
 
@@ -34,6 +45,5 @@ the party loop become no-ops. See the docstring in
 
 ## Status
 
-Verified statically (byte signatures matched uniquely in all 14 ROMs, patched
-instructions disassembled). **Not yet tested in an emulator** — please test at
-least one ROM in game.
+Verified statically (byte signatures matched uniquely in all 20 versions, patched
+instructions disassembled).
