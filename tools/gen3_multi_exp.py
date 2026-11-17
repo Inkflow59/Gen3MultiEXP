@@ -151,6 +151,12 @@ def rom_label(rom: bytes, filename: str):
     return code, rev, name
 
 
+def simple_name(code: str, rev: int) -> str:
+    """Short output name, e.g. 'Emerald (USA-Europe)' or 'FireRed (USA-Europe) Rev1'."""
+    base = GAME_NAMES[code].replace("/", "-")
+    return base + (" Rev%d" % rev if rev else "")
+
+
 def iter_roms(directory):
     for fname in sorted(os.listdir(directory)):
         if fname.lower().endswith(".gba"):
@@ -169,7 +175,7 @@ def run(mode: str, roms_dir: str, out_dir: str) -> int:
             print("SKIP  %s (not a supported Gen 3 ROM)" % fname)
             continue
         code, rev, name = label
-        stem = os.path.splitext(fname)[0]
+        stem = simple_name(code, rev)
         try:
             edits = compute_edits(rom)
         except PatchError as exc:
@@ -177,7 +183,7 @@ def run(mode: str, roms_dir: str, out_dir: str) -> int:
             failures += 1
             continue
         if mode == "build":
-            target = os.path.join(out_dir, "%s - Multi EXP.ips" % stem)
+            target = os.path.join(out_dir, "%s.ips" % stem)
             with open(target, "wb") as f:
                 f.write(make_ips(edits))
         else:
